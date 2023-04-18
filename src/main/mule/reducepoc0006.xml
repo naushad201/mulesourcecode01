@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="bedbbef8-09b6-4871-8736-34f0ca17e9fb" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="reducepoc0006Flow" doc:id="df171818-60e5-4b6f-a039-c24edf172053" >
+		<http:listener doc:name="Listener" doc:id="5bf56492-0e1a-4e93-8f04-b6f7aa6bc7aa" config-ref="HTTP_Listener_config" path="/test"/>
+		<logger level="INFO" doc:name="Logger" doc:id="c32a5486-c5cd-47bf-8696-7a3f15ffa06f" message="stratflow"/>
+		<logger level="INFO" doc:name="Logger" doc:id="011c1433-aa9c-45f0-8218-b4d59fc4cefe" />
+		<ee:transform doc:name="Transform Message" doc:id="b2cc63c4-a659-4e4a-aef4-ff778915c547" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload reduce(item,accumulator)-> item + accumulator]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="78c3cc4b-090e-40ad-afc6-2867ec873578" message="endflow"/>
+	</flow>
+</mule>
